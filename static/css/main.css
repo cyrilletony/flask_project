@@ -1,0 +1,251 @@
+body {
+    margin: 0px;
+}
+*,*:hover,*:focus{
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.wrapper2{
+    display:flex;
+    text-decoration: none;
+    transition: all 0.3s;
+    height: 100%;
+
+}
+#bttn{
+    height: 110px;
+    width: 90px;
+}
+#bttndets{
+    width: 100%;
+    text-align: center;
+}
+#inpp{
+    height: 30px;
+    border:1px green solid;
+    width: 100%;
+    border-radius: 5px;
+}
+.error{
+    position: absolute;
+    z-index: 10;
+    height: 70px;
+    width: 26%;
+
+}
+#examdiv{
+    background-color: white; 
+    margin: 7px; 
+    padding: 0px; 
+    border-radius:10px; 
+}
+#examdesc{
+    font-size: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0px;
+
+    
+}
+#examimage{
+    width:100%;
+    border-radius: 10px 10px 0px 0px;
+    height:130px;
+}
+#coursename{
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 10px;
+}
+#lec{
+    margin-left: 10px;
+    margin-right: 10px; 
+    font-size: 12px; 
+    padding: 0px;
+
+}
+#lecdetails{
+    padding-left: 10px; 
+    margin: 0px; 
+    bottom:0px;
+}
+#lecimage{
+    margin:3px;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    
+}
+#lecimage img{
+    padding: 0;
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    background: radial-gradient(red, white,blue);
+}
+#lecname, #date{
+    font-size: 10px;
+    font-weight: bold;
+}
+#sidebar{
+    min-width: 250px;
+    max-width: 250px;
+    color:#004d13;
+    background: -moz-linear-gradient(270deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(81, 143, 107)), color-stop(100%, rgb(37, 212, 110)));
+    background: -webkit-linear-gradient(270deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+    background: linear-gradient(180deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+    transition: all 0.2s;
+}
+
+/*#sidebar.active{
+    margin-left: 0px !important;
+    }*/
+#sidebar .sidebar-header{
+    padding: 5px;
+}
+#sidebar ul.components{
+    padding: 20px 0;
+    border-bottom: 1px solid green;
+    border-top: 1px solid green;
+}
+#sidebar ul h4{
+    color: white;
+    margin-top: 0;
+    padding: 10px;
+    border-bottom: 1px solid green;
+    border-top: 1px solid green;
+}
+#sidebar ul li a{
+    color: white;
+}
+#sidebar ul li a{
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover{
+    color: #00330d;
+    background: #b3ffc6; 
+}
+#sidebar ul li.active>a,
+a[aria-expanded="true"]{
+    color:#0f572d;
+    background: #80ff9f; 
+}
+a[data-toggle="collapse"]{
+    position: relative;
+}
+.dropdown-toggle::after{
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
+}
+ul ul a{
+    font-size: 0.9em !important;
+    padding-left:30px !important;
+    background:#67e49b;  
+}
+#content2{
+    width: 100%;
+    min-height: 100vh; 
+    transition: all 0.3s;
+}
+#closebtn{
+    visibility: hidden !important;
+}
+#sidebarCollapse{
+    visibility: hidden !important;
+    }
+@media (max-width: 768px){
+    .active2{
+        margin-left: -250px;
+        z-index: 4;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        height: 100%;
+        position: absolute;
+        transition: all 0.3s;
+    }
+    .active{
+        margin-left: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        height: 100%;
+        z-index: 4;
+        position: absolute;
+        transition: all 0.3s;
+    }
+    #closebtn{
+        visibility: visible !important;
+    }
+    #examdiv{
+    background-color: white; 
+    margin: 15px; 
+    padding: 0px; 
+    
+    }
+    #dash{
+        overflow-y:scroll; 
+        height: 90vh;
+    }
+    #sidebarCollapse{
+    visibility: visible !important;
+    }
+   
+    #sidebarCollapse span{
+        display: none;
+    }
+    #Collapse span{
+        display: none;
+    }
+}
+#button {
+    position: absolute;
+    height: 30px;
+    width: 70px;
+    bottom: 10px;
+}
+
+#datapane {
+    color: white;
+    background-color: rgb(0, 128, 117);
+}
+
+#tasknumber {
+    width: 10px;
+}
+
+#fname,
+#sname,
+#level,
+#email {
+    width: 100%;
+    color: white;
+    background-color: transparent;
+    border: 1px solid;
+    border-color: white;
+    height: 20px;
+}
+
+#submit {
+    background-color: blue;
+    color: white;
+}
+
+#submit:hover {
+    background-color: black;
+}
+
+#acts {
+    width: 22%;
+    margin-right: 20px;
+}
+/*--------------------------------------------------------------------------------*/

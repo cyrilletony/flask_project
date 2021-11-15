@@ -1,0 +1,55 @@
+{% extends 'examinerbase1.html' %}
+{% block head %}
+
+<title>Question Bank</title>
+<style type="text/css">
+	@media (max-width: 768px){
+		#phone{
+			height: 600px;
+			overflow-y: scroll;
+		}
+	}
+	#abstract{
+		border-radius: 10px; 
+		border: 1px 
+		solid blue;margin: 10px;
+	}
+	#about{
+		border-radius: 10px; 
+		border: 1px solid blue; 
+		margin: 10px;
+	}
+	#about:hover,#abstract:hover{
+		background-image: url('{{url_for('static',filename='img/GettyImages-87487497-e1579034836695-scaled.jpg')}}');
+		background-repeat: no-repeat;
+		color: white;
+		font-style: bold;
+	}
+</style>
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+
+<div class="container" id="phone">
+	<div class="row" style="height: auto; width: 100%; padding: 10px; margin: 10px; margin: auto;">
+		<div class="container col-md" id="abstract">
+			<h3 style="width: 100%; text-align: center;">Abstract</h3>
+			<h5 style="font-size: 17px;">
+				In the last year normal learning methods have been altered by Covid 19 pandemic, leading to new ways of conducting things as per the directives of the Ministry of Health. This first led to closure of schools and adoption of new methods of learning. The new methods involved virtual meetings and classes or as it is commonly known now, online classes, and they came with many new things including the introduction of online examinations. The online examination system being a new thing has many flaws such as credibility of the exam results and security of the exam process. This includes cases such as impersonation of students during the examination. My project proposal intends to develop an online examination system with automated face recognition module. This module will reduce examination irregularities such as impersonation. The methods of development I intend to use during the development of this system include waterfall model of software development. This model will allow me to design the system systematically from the start to the end with the resources available after the first step of gathering data and information. Then development of the proposed project using the designs available and resources gathered, testing using different testing techniques and eventually deployment of the system for use with constant maintenance for outmost quality and satisfaction of the client. 
+			</h5>
+		</div>
+		<div class="container col-md" id="about">
+			<h3 style="width: 100%; text-align: center;"><strong>Created By Mutai Tony Kipkoech</strong></h3>
+			<h4 style="width: 100%; text-align: center;">BE232/0932/2017</h4>
+			<h5 style="width: 100%; text-align: center;">A project proposal submitted in partial fulfilment of the requirement for award of Bachelor of Business Information Technology at the school of Computing and Information Technology, Murang’a University of Technology</h5>
+			<h3 style="width: 100%; text-align: center;"><strong>2021</strong></h3>
+		</div>
+	</div>
+</div>
+{% endblock %}

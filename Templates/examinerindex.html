@@ -1,0 +1,48 @@
+{% extends 'examinerbase1.html' %}
+{% block head %}
+
+<title>
+	Examiner Dashboard
+</title>
+
+{% endblock %}
+{% block body %}
+<div class="container" id="dash">
+<div class="container">
+	<div class="row">
+
+  {% for unit in units %}
+  <div class="col-md" id="examdiv">
+    <a href="/addexamt/{{unit.unitcode}}" class="thumbnail">
+      <img src="{{url_for('static',filename='uploads')}}/{{unit.image}}" alt="uploads/{{unit.image}}" id="examimage">
+      <p id="coursename"><b>{{unit.unitcode}}</b> <b>{{unit.unitname}}</b></p>
+      <h6 id="examdesc">{{unit.description}}</h6>
+      <div class='row' id="lec">
+      	<div id="lecimage" class="col-1">
+      	<img src="{{url_for('static',filename='img/profile.png')}}" >
+        </div>
+      	<div class="col" id="lecdetails" style="bottom: 0px">
+      	<h6 id="lecname"><b>By {{unit.lecturer}}</b></h6>
+      	<h6 id="date">Created on {{unit.date.strftime('%b %d, %Y')}}</h6>
+      	</div>
+      </div>
+    </a>
+  </div>
+ {% endfor %}
+</div>
+</div>
+<hr>
+<div class="container">
+	<div class="row">
+    <div class="col-md" style="height: 280px; margin: 5px; border-radius: 10px;content: '';background: inherit; box-shadow: inset 0 0 0 200px rgba(255,255,255,0.3);">
+      <h5>Upcoming Examination Manager</h5>
+      <hr>
+    </div>
+    <div class="col-md" style="height: 280px; margin: 5px; border-radius: 10px;content: '';background: inherit; box-shadow: inset 0 0 0 200px rgba(255,255,255,0.3);">
+      <h5>Ongoing Sessions</h5>
+      <hr>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

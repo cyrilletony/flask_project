@@ -1,0 +1,67 @@
+{% extends 'base3.html' %}
+{% block head %}
+
+<title>Student Signup</title>
+<style type="text/css">
+	#imageupload{
+		color: white;
+		align-content: center;
+	}
+	#imageupload h3{
+		text-align:center; 
+	}
+	#slideshow .one {
+	    background-image: url('{{url_for('static',filename='img/dots.png')}}');
+	    background-repeat: no-repeat;
+	    background-position: 0% 50%;
+	}
+
+	#slideshow .two {
+	    background-image: url('{{url_for('static',filename='img/gears.png')}}');
+	    background-repeat: no-repeat;
+	    background-position: 0% 50%;
+	}
+
+	#slideshow .three {
+	    background-image: url('{{url_for('static',filename='img/splat.png')}}');
+	    background-repeat: no-repeat;
+	    background-position: 0% 5%;
+	}
+
+	#slideshow .four {
+	    background-image: url("{{url_for('static',filename='img/ray.png')}}");
+	    background-repeat: no-repeat;
+	    background-position: 0% 50%;
+	}
+</style>
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+        <div class="container" id="imageupload">
+        	<h3>Upload your latest images for system training</h3>
+        	<hr>
+			<form method="post" enctype="multipart/form-data" action="/imagesupload">
+			  <p>Image one</p>
+			  <input type="file" name="file1">
+			<p>Image Two</p>
+			  <input type="file" name="file2">
+			<p>Image Three</p>
+			  <input type="file" name="file3">
+			  <hr>
+			  <input type="submit" class="btn btn-sm btn-info" value="Upload" style="width: 100%;">
+			</form>
+			
+			<div class="help-action">
+	        <a href="/studentsignup"><button type= "button" class="btn btn-sm btn-warning" style="width: 100%;">Add Faces</button></a>
+    
+            <p><i class="fa fa-arrow-left" aria-hidden="true"></i><a class="agree" href="#">Terms of service</a></p>
+</div>
+  </div>
+
+{% endblock %}

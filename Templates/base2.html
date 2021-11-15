@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="icon" href="{{url_for('static',filename='img/logo.png')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap-grid.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/font-awesome.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/style.css')}}">
+	
+	{% block head %}{% endblock %}
+<body>	
+	{% block body %}{% endblock %}
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/jquery.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/popper.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/script.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/bootstrap.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/all.min.js')}}"></script>
+	
+</body>
+</html>

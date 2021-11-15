@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="icon" href="{{url_for('static',filename='img/logo.png')}}">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap-grid.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/font-awesome.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/style.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/all.css')}}">
+	{% block head %}{% endblock %}	
+<body>
+	<div class="wrapper2" style="position: relative;">
+	<nav id="sidebar" class="active2">
+		<div class="sidebar-header">
+			<button class="btn btn-sm btn-light activebtn" id="closebtn" ><span aria-hidden="true">&times</span></button>
+			<a href="/examinerdashboard"><div class="img-rounded" style="display: flex;justify-content: center; height: 100px; width: auto;">
+                <img class="img-responsive" src="{{url_for('static',filename='img/logo.png')}}" alt="">
+            </div></a>
+		</div>
+		<ul class="list-unstyled components">
+			<li>
+				<a href="/examinerdashboard"><i class="fa fa-chart-line"> </i>  Dashboard</a>
+			</li>	
+			<li>
+				<a href="/units"><i class="fa fa-graduation-cap"> </i>  Units</a>
+			</li>
+			<li>
+				<a href="/addexam"><i class="fa fa-clipboard"> </i>  Exam Paper</a>
+			</li>
+		
+			<li>
+				<a href="#"><i class="fa fa-calendar"> </i>	 Conduct Exam</a>
+			</li>
+			<li>
+				<a href="/qbank"><i class="fa fa-file-archive"> </i>  Question Bank</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-cog"> </i>  Settings</a>
+			</li>
+			<li>
+				<a href="/about"><i class="far fa-address-card"> </i>  About</a>
+			</li>
+			
+		</ul>
+	</nav>
+	
+
+<div id="content2">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid btn-group-horizontal">
+			<button type="button" id="sidebarCollapse" class="btn btn-success btn-sm">
+				<i class="fas fa-align-left"></i>
+				<span>Toggle Sidebar</span>
+			</button>
+			<div class="d-flex flex-row">
+			<button type="button" class="btn btn-xsm btn-outline-default p-1" style="margin-right:20px;padding: 4px;"><i class="fa fa-bell"></i><span class="translate-middle badge rounded-pill top-0 bg-danger" style="color: white;">99+</span></button>
+			<button type="button" id="Collapse" class="btn btn-sm btn-primary p-1" data-toggle="modal" data-target="#staticBackdrop">
+				<i class="far fa-user-circle"></i>
+				<span style="text-transform: capitalize;">{{title}} {{firstname}} {{middlename}} {{lastname}}</span>
+			</button>
+			</div>
+			<div class="modal fade" id="staticBackdrop" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog" role='document' style="position: fixed;top:7%;right: 5px; width: 300px; margin: auto; transform: translate3d(0%, 0, 0);">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="staticBackdropLabel" style="text-transform: capitalize;">{{title}} {{firstname}} {{middlename}} {{lastname}}</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<a href="#">
+							<button type="button" id="ollapse" class="btn btn-info" style="width: 100%; margin-bottom:5px;">
+								<i class="fa fa-cog"></i>
+								<span>Settings</span>
+								
+							</button>
+							
+						</a>
+						<br>
+							<a href="/logoutexaminer">
+							<button type="button" id="ollapse" class="btn btn-danger"  style="width: 100%; margin-bottom:5px;">
+								<i class="fa fa-sign-out-alt"></i>
+								<span>Logout</span>
+								
+							</button>
+						</a>
+						</div>
+						
+					</div>
+				</div>	
+			</div>
+			
+	</div>
+		
+	</nav>
+
+
+{% block body %}{% endblock %}
+</div>
+</div>
+</div>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/ckeditor.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/jquery.min.js')}}"></script>
+	<script type="text/javascript">
+		$(function() {
+			var closebtn =$('#closebtn');
+			var sidebarCollapse = $('#sidebarCollapse');
+			sidebarCollapse.on('click', function(event) {
+				event.preventDefault();
+				var sidebar = $('#sidebar');
+				if (sidebar.hasClass('active2')){
+					sidebar.swapClass('active2', 'active');
+					closebtn.show()
+				}
+				else if(sidebar.hasClass('active')){
+					sidebar.swapClass('active', 'active2');
+					closebtn.hide()
+				}
+			});
+		});
+		$(function() {
+			var closebtn =$('#closebtn');
+			closebtn.on('click', function(event) {
+				event.preventDefault();
+				var sidebar = $('#sidebar');
+				if (sidebar.hasClass('active2')){
+					sidebar.swapClass('active2', 'active');
+					closebtn.hide()
+				}
+				else if(sidebar.hasClass('active')){
+					sidebar.swapClass('active', 'active2');
+					closebtn.show()
+
+				}
+			});
+		});
+	</script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/popper.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/script.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/bootstrap.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/all.min.js')}}"></script>
+
+</body>
+</html>

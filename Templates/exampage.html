@@ -1,0 +1,74 @@
+{% extends 'base4.html' %}
+{% block head %}
+<style type="text/css">
+	#timer {
+	position: absolute;
+	top: 2px;
+	left: 60%;
+    height: auto;
+    width: 150px;
+    padding: 0;
+    margin: auto;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: FranklinGothic, Verdana, Arial, sans-serif;  
+}
+#time{
+	font-size: 24px;
+    font-weight: bold;
+	color: black;
+}
+#criticaltime{
+	font-size: 24px;
+    font-weight: bold;
+	color: red;
+}
+</style>
+{% endblock %}
+{% block body %}
+<audio id="over_music">
+    <source src="{{ url_for('static', filename='beepbeep.mp3') }}">
+</audio>
+
+<div class="container">
+<div class="container">
+	<h4><b>{{exam.unitcode}} . {{exam.unitname}}</b></h4>
+	<div id="timer">
+		<p id="criticaltime"></p>
+		<p id="time"></p>
+	</div>
+</div>
+<hr>
+<div class="container">
+	<iframe src="/openhtml" id="qframe" style="width: 100%; height: 63vh;overflow-y: scroll; border:none; background-color: white;" class="bg-light">	
+	</iframe>
+</div>
+<hr>
+<div class="container">
+	<h5>Questions</h5>
+	{% for question in questions %}
+		<button id="id{{question.id}}" class="btn btn-sm btn-info questions" style="border-radius: 100%; height: 40px;width: 40px; margin: 1px;">{{question.id}}</button>
+	{%endfor%}
+</div>
+</div>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/jquery.min.js')}}"></script>
+
+<script type="text/javascript">
+	{% for question in questions %}
+
+	$(function(){
+				var previous = $('#id{{question.id}}');
+				previous.on('click', function(event){
+				event.preventDefault();
+				var frame = $('#qframe');
+				frame.attr('src','/questions/{{question.questionid}}');
+		});
+	});
+	{%endfor%}
+</script>
+{% endblock %}

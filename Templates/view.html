@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block head %}
+
+<title>View</title>
+
+{% endblock %}
+{% block body %}
+
+<div class="container" style="height: auto; width: 100%;min-height: 5vh; transition: all 0.3s;;margin: 5px 0px;background-color: #99ffbb;">
+	
+	<form action="#Search" method="post">
+		<div class="row" style="margin:6px;">
+		<input type="text" name="search" placeholder="Search Units..." class="col" style="width:30%; border: 1px solid #4da6ff; background-color: transparent; border-radius: 3px;">
+		<button type="submit" name="submit" class="btn btn-sm btn-info col-3" id="Collapse"><i class="fa fa-search"></i><span>  Search</span></button>
+		</div>
+		
+	</form>
+</div>
+
+
+<div class="table-striped table-hover table-condensed">
+<table class="table">
+<tr class="form-primary">
+	<th>Email</th>
+	<th>Level</th>
+	<th>Name</th>
+	<th>Date</th>
+	<th id="acts">Actions</th>
+</tr>
+{% for person in people %}
+<tr>
+	<td>{{ person.email }}</td>
+	<td>{{ person.level }}</td>
+	<td>{{person.fname}} {{person.sname}}</td>
+	<td>{{ person.date.strftime('%b %d, %Y')}}</td>
+	<td>
+		<a href="/delete/{{person.id}}"><button class="btn btn-danger btn-sm">Remove</button></a>
+		<a href="/update/{{person.id}}"><button class="btn btn-success btn-sm">Update</button></a>
+		<a href="/check/{{person.id}}"><button class="btn btn-info btn-sm">View</button></a>
+	</td>
+</tr>
+{% endfor %}
+</table>
+	
+</div>
+
+
+{% endblock %}

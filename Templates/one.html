@@ -1,0 +1,97 @@
+
+{% block head %}
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="icon" href="{{url_for('static',filename='img/logo.png')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap-grid.min.css')}}">
+{% endblock %}
+{% block body %}
+<body class="bg-light">
+{% if type == "Prose"%}
+
+<p><b>Prose . {{question.questionid}}</b></p>
+<p><b>Question:</b> {{question.question}} . <b>({{question.marks}}mark(s))</b></p>
+<hr>
+<div id="prose" style="width: 100%;">
+    <form action="" method="post">
+	<textarea id="editor" wrap="hard" name="answer">
+		
+	</textarea>
+    <hr>
+    <button type="submit" class="btn btn-sm btn-danger" style="width: 100%"> Submit and Commit</button>
+</form>
+</div>
+
+<script type="text/javascript" src="{{url_for('static',filename='javascript/ckeditor.js')}}"></script>
+    <script type="text/javascript">
+    ClassicEditor
+        .create( document.querySelector( '#editor' ), {
+            //toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+        } )
+        .then( editor => {
+            window.editor = editor;
+        } )
+        .catch( err => {
+            console.error( err.stack );
+        } );
+    </script>
+{%endif%}
+{% if type == "Multiple Select"%}
+
+<p><b>Multiple Select . {{question.questionid}}</b></p>
+<p><b>Question:</b> {{question.question}} . <b>({{question.marks}}mark(s))</b></p>
+<hr>
+<div id="multiselect">
+    <form action="" method="post">
+        {% for select in choices %}
+        <input type="checkbox" name="{{select[0]}}" value="{{select[1]}}"> {{select[1]}}<br>
+        <h6></h6>
+        {% endfor %}
+        <hr>
+        <button type="submit" class="btn btn-sm btn-danger" style="width: 100%"> Submit and Commit</button>
+    </form>
+</div>
+
+{%endif%}
+{% if type == "Multiple Choice"%}
+
+<p><b>Multiple Choice . {{question.questionid}}</b></p>
+<p><b>Question:</b> {{question.question}} . <b>({{question.marks}}mark(s))</b></p>
+<hr>
+<div id="multichoice">
+    <form action="" method="post">
+      <input type="radio" name="answer" value="{{question.select1}}"> {{question.select1}}<br>
+      <input type="radio" name="answer" value="{{question.select2}}"> {{question.select2}}<br>
+      <input type="radio" name="answer" value="{{question.select3}}"> {{question.select3}}<br>
+      <input type="radio" name="answer" value="{{question.select4}}"> {{question.select4}}<br>
+      <hr>
+      <button type="submit" class="btn btn-sm btn-danger" style="width: 100%"> Submit and Commit</button>
+    </form>
+</div>
+
+{%endif%}
+{% if type == "True or False"%}
+
+<p><b>True or False . {{question.questionid}}</b></p> 
+<p><b>Question:</b> {{question.question}} . <b>({{question.marks}}mark(s))</b></p>
+<hr>
+<div id="trueorfalse">
+    <form action="" method="post">
+      <input type="radio" name="answer" value="True"> True<br>
+      <input type="radio" name="answer" value="Flase"> False<br>
+      <hr>
+      <button type="submit" class="btn btn-sm btn-danger" style="width: 100%"> Submit and Commit</button>
+  </form>
+</div>
+
+{%endif%}
+
+    <script type="text/javascript" src="{{url_for('static',filename='javascript/jquery.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='javascript/bootstrap.min.js')}}"></script>
+</body>
+{% endblock %}

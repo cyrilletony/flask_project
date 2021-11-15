@@ -1,0 +1,57 @@
+{% extends 'examinerbase1.html' %}
+{% block head %}
+
+<title>Question Bank</title>
+
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+<div class="container" style="height: auto; width: 100%;min-height: 5vh; transition: all 0.3s;margin: 5px 0px; background-color: #99ffbb;">
+	<form action="#Search" method="post">
+		<div class="row" style="margin: 6px">
+		<input type="text" name="search" placeholder="Search Units..." class="col" style="width:30%; border: 1px solid #4da6ff; background-color: transparent; border-radius: 3px;">
+		<button type="submit" name="submit" class="btn btn-sm btn-info col-3"><i class="fa fa-search"></i><span>  Search</span></button>
+
+		</div>
+		
+	</form>
+</div>
+
+<div class="container" style="overflow-y:scroll; height: 83vh;">
+<div class="table-striped table-hover table-condensed">
+<table class="table">
+<tr class="form-primary">
+	<th>No</th>
+	<th>Unit Code</th>
+	<th>Question ID</th>
+	<th>Type</th>
+	<th>Lecturer</th>
+	<th>Date</th>
+	<th>Details</th>
+</tr>
+{% for question in questions %}
+<tr>
+	
+	<td>{{question.id}}</td>
+	<td>{{question.unitcode}}</td>
+	<td>{{question.questionid}}</td>
+	<td>{{question.questiontype}}</td>
+	<td>{{question.creator}}</td>
+	<td>{{question.date.strftime('%b %d, %Y')}}</td>
+	<td>
+		<a href="#"><button class="btn btn-sm btn-info">Details</button></a>
+		<a href="#"><button class="btn btn-sm btn-danger">Delete</button></a>
+	</td>
+</tr>
+{% endfor %}
+</table>
+</div>         
+</div>
+{% endblock %}
+

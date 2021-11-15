@@ -1,0 +1,79 @@
+{% extends 'base3.html' %}
+{% block head %}
+
+<title>Student Signup</title>
+<style type="text/css">
+	#slideshow .one {
+    background-image: url('{{url_for('static',filename='img/dots.png')}}');
+    background-repeat: no-repeat;
+    background-position: 0% 50%;
+}
+
+#slideshow .two {
+    background-image: url('{{url_for('static',filename='img/gears.png')}}');
+    background-repeat: no-repeat;
+    background-position: 0% 50%;
+}
+
+#slideshow .three {
+    background-image: url('{{url_for('static',filename='img/splat.png')}}');
+    background-repeat: no-repeat;
+    background-position: 0% 5%;
+}
+
+#slideshow .four {
+    background-image: url("{{url_for('static',filename='img/ray.png')}}");
+    background-repeat: no-repeat;
+    background-position: 0% 50%;
+}
+</style>
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+<div class="container">
+<h3 style="text-align: center; color: white">Student Signup</h3>
+<hr>
+		<form class="login-form" action="/signupone" method="post" enctype=multipart/form-data><!--action => /login-->
+		<div class="d-flex flex-row">
+		<div class="p-2">
+			<input type="text" class="input" id="user_login" autocomplete="off" placeholder="Username *" name="username" required="">
+			<input type="text" class="input" id="user_login" autocomplete="off" placeholder="First Name *" name="firstname" required="">
+			<input type="text" class="input" id="user_login" autocomplete="off" placeholder="Middle name" name="middlename" >
+            <input type="text" class="input" id="user_login" autocomplete="off" placeholder="Last Name *" name="lastname" required="">
+        </div>
+		<div class="p-2">
+			<input type="text" class="input" id="user_login" autocomplete="off" placeholder="Registartion No. *" name="regno" required="">
+            <input type="email" class="input" id="user_login" autocomplete="off" placeholder="Email *" name="email" required="">
+            <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password *" name="password" required="">
+            <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Confirm Password *" name="confpassword" required="">
+        </div>
+    </div>
+    <br>
+        <input type="file" name="file" style="width: 100%; color:white;" required="" placeholder="Profile Picture">
+    <br><br>
+            <input type="submit" class="btn btn-info btn-sm" value="Next Page" style="width: 100%;">
+        </form>
+<hr>
+		<div class="help-action" style="color: grey;">
+			
+            
+			<p><i class="fa fa-arrow-left" aria-hidden="true"></i>Read the<a class="agree" href="#">Terms of service</a></p>
+			<p><i class="fa fa-arrow-left" aria-hidden="true"></i> Already have an Account? <a href="/">Login</a></p>
+			
+		</div>
+                 		
+       
+    
+<form>
+	
+</form>
+</div>
+
+
+{% endblock %}

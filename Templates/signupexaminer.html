@@ -1,0 +1,53 @@
+{% extends 'base3.html' %}
+{% block head %}
+
+<title>Student Signup</title>
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+<div>
+	<h3 style="text-align: center; color: white">Examiner Signup</h3>
+	<hr>
+		<form class="login-form" action="/addexaminer" method="post"><!--action => /login-->
+		<div class="d-flex flex-row">
+		<div class="p-2">
+			<input type="text" class="input" id="user_login" autocomplete="off" placeholder="Title" name="title">
+			<input type="text" class="input" id="user_login" autocomplete="off" placeholder="First Name *" name="efirstname" required="">
+			<input type="text" class="input" id="user_login" autocomplete="off" placeholder="Middle name" name="emiddlename" >
+            <input type="text" class="input" id="user_login" autocomplete="off" placeholder="Last Name *" name="elastname" required="">
+        </div>
+        
+        <div class="p-2">
+            <input type="text" class="input" id="user_login" autocomplete="off" placeholder="Username *" name="eusername" required="">
+            <input type="email" class="input" id="user_login" autocomplete="off" placeholder="Email *" name="eemail" required="">
+            <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password *" name="epassword" required="">
+            <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Confirm Password *" name="econfpassword" required="">
+        </div>
+    </div>
+    <br>
+            <input type="submit" class="btn btn-info btn-sm" value="Signup" style="width: 100%;">
+        </form>
+<hr>
+		<div class="help-action" style="color: grey;">
+		
+            
+			<p><i class="fa fa-arrow-left" aria-hidden="true"></i>Read the <a class="agree" href="#">Terms of service</a></p>
+			<p><i class="fa fa-arrow-left" aria-hidden="true"></i> Already have an Account? <a href="/">Login</a></p>
+			
+		</div>
+                   		
+       
+    
+<form>
+	
+</form>
+</div>
+
+
+{% endblock %}

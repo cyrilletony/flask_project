@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block head %}
+
+<title>Dashboard</title>
+
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+<div class="container" style="height: auto; width: 100%;min-height: 5vh; transition: all 0.3s;margin: 5px 0px; background-color: #99ffbb;">
+	<form action="/searchunit" method="post">
+		<div class="row" style="margin: 6px">
+		<input type="text" name="search" placeholder="Search Units..." class="col" style="width:30%; border: 1px solid #4da6ff; background-color: transparent; border-radius: 3px;">
+		<input type="submit" name="submit" class="btn btn-sm btn-info col-3" value="Search">
+		</div>
+		
+	</form>
+</div>
+<style type="text/css">
+  #unitdiv{
+    height: auto;
+    max-width: 260px;
+    border-radius: 5px;
+    background-color: white;
+    margin: 6px;
+    padding: 0px;
+  }
+  #lecinfo{
+    height: auto;
+    background-color: white;
+  }
+  #unitdiv1{
+    height: auto;
+    max-width: 260px;
+    min-width: 260px;
+    border-radius: 5px;
+    background-color: white;
+    margin: 6px;
+    padding: 0px;
+  }
+  #lecinfo1{
+    height: auto;
+    background-color: white;
+  }
+  @media (max-width: 768px){
+  #unitdiv1,#unitdiv{
+    height: auto;
+    max-width: 100%;
+    border-radius: 5px;
+    background-color: white;
+    margin: 6px;
+    padding: 0px;
+  }
+  #myunits{
+    height:90vh;
+    overflow-y: scroll;
+  }
+  }
+</style>
+<div id="myunits">
+<div class="container">
+<div class="row">
+{% for unit in units %}
+  <div class="col-md" id="unitdiv" >
+      <img style="height: 100px; width: 100%;border-radius: 5px 5px 0px 0px;" src="{{url_for('static',filename='uploads')}}/{{unit.image}}">
+      <div class="" id="lecinfo">
+      <p id="coursename"><b>{{unit.unitcode}}</b> <b>{{unit.unitname}}</b></p>
+      <h6 id="examdesc" style="max-height: 30px; overflow-y: hidden;">{{unit.description}}</h6>
+      <div class='container row'id="lec" >
+      	<div id="lecimage" class="col-1">
+      	<img src="{{url_for('static',filename='img/profile.png')}}" >
+        </div>
+      	<div class="col-8" id="lecdetails" style="bottom: 0px">
+      	<h6 id="lecname"><b>By {{unit.lecturer}}</b></h6>
+      	<h6 id="date">Created on {{unit.date.strftime('%b %d, %Y')}}</h6>
+      	</div>
+      	<div class="d-flex flex-row-reverse" style="border-radius: 5px">
+      	<a href="/enroll/{{unit.unitcode}}"><button style="float: right;margin:0px 5px 5px 0px;" class="btn btn-sm btn-info p-1">Enrol</button></a>
+      	</div>
+      </div>
+      
+  </div>
+</div>
+ {% endfor %}
+</div>
+</div>
+<div class="container" id="">
+	My Units
+	<div class="row">
+{% for myunit in myunits %}
+  <div class="col" id="unitdiv1" >
+      <img style="height: 100px; width: 100%;border-radius: 5px 5px 0px 0px;" src="{{url_for('static',filename='uploads')}}/{{myunit.image}}">
+      <div class="" id="lecinfo1">
+      <p id="coursename"><b>{{myunit.unitcode}}</b> <b>{{myunit.unitname}}</b></p>
+      <h6 id="examdesc" style="max-height: 30px; overflow-y: hidden;">{{myunit.description}}</h6>
+      <div class='container row'id="lec" >
+      	<div id="lecimage" class="col-1">
+      	<img src="{{url_for('static',filename='img/profile.png')}}" >
+        </div>
+      	<div class="col-8" id="lecdetails" style="bottom: 0px">
+      	<h6 id="lecname"><b>Lec: {{myunit.lecturer}}</b></h6>
+      	<h6 id="date">Registered on {{myunit.date.strftime('%b %d, %Y')}}</h6>
+      	</div>
+      	<div class="d-flex flex-row-reverse" style="border-radius: 5px">
+      	<a href="/test/{{myunit.id}}"><button style="float: right;margin:0px 5px 5px 0px;" class="btn btn-sm btn-success p-1">Start</button></a>
+      	</div>
+      </div>
+      
+  </div>
+</div>
+ {% endfor %}
+
+</div>
+</div>
+</div>
+{% endblock %}
+

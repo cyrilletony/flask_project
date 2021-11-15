@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/sample.min.css')}}">
+	<title>Editor One</title>
+</head>
+<body>
+<main>
+	<div style="width: 60%; height:auto;max-height:400px; overflow-y: scroll; ">
+	<textarea id="editor" wrap="hard">
+		
+	</textarea>
+</div>
+</main>
+
+<script type="text/javascript" src="{{url_for('static',filename='javascript/ckeditor.js')}}"></script>
+<script>
+	ClassicEditor
+		.create( document.querySelector( '#editor' ), {
+			// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+		} )
+		.then( editor => {
+			window.editor = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+</script>
+<h2>{{examduration}}</h2>
+<h2>{{examname}}</h2>
+<h2>{{examdate}} {{examtime}}</h2>
+<h2>{{description}}</h2>
+</body>
+</html>

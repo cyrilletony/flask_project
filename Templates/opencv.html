@@ -1,0 +1,206 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap-grid.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/fontawesome.min.css')}}">
+<script type="text/javascript" async src="{{url_for('static',filename='javascript/opencv.js')}}" ></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/utils.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/popper.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/main.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/all.min.js')}}"></script>
+
+<script type='text/javascript'>
+var netDet = undefined, netRecogn = undefined;
+var persons = {};
+
+function detectFaces(img) {
+  var blob = cv.blobFromImage(img, 1, {width: 192, height: 144}, [104, 117, 123, 0], false, false);
+  netDet.setInput(blob);
+  var out = netDet.forward();
+
+  var faces = [];
+  for (var i = 0, n = out.data32F.length; i < n; i += 7) {
+    var confidence = out.data32F[i + 2];
+    var left = out.data32F[i + 3] * img.cols;
+    var top = out.data32F[i + 4] * img.rows;
+    var right = out.data32F[i + 5] * img.cols;
+    var bottom = out.data32F[i + 6] * img.rows;
+    left = Math.min(Math.max(0, left), img.cols - 1);
+    right = Math.min(Math.max(0, right), img.cols - 1);
+    bottom = Math.min(Math.max(0, bottom), img.rows - 1);
+    top = Math.min(Math.max(0, top), img.rows - 1);
+
+    if (confidence > 0.5 && left < right && top < bottom) {
+      faces.push({x: left, y: top, width: right - left, height: bottom - top})
+    }
+  }
+  blob.delete();
+  out.delete();
+  return faces;
+};
+
+function face2vec(face) {
+  var blob = cv.blobFromImage(face, 1.0 / 255, {width: 96, height: 96}, [0, 0, 0, 0], true, false)
+  netRecogn.setInput(blob);
+  var vec = netRecogn.forward();
+  blob.delete();
+  return vec;
+};
+
+function recognize(face) {
+  var vec = face2vec(face);
+
+  var bestMatchName = 'unknown';
+  var bestMatchScore = 0.5; 
+  for (name in persons) {
+    var personVec = persons[name];
+    var score = vec.dot(personVec);
+    if (score > bestMatchScore) {
+      bestMatchScore = score;
+      bestMatchName = name;
+    }
+  }
+  vec.delete();
+  return bestMatchName;
+};
+function loadModels(callback) {
+  var utils = new Utils('');
+  var proto = "{{url_for('static',filename='models/face_detector/deploy_lowres.prototxt')}}";
+  var weights = "{{url_for('static',filename='models/opencv_3rdparty/res10_300x300_ssd_iter_140000_fp16.caffemodel')}}";
+  var recognModel = "{{url_for('static',filename='models/pyannote/openface.nn4.small2.v1.t7')}}";
+  utils.createFileFromUrl('face_detector.prototxt', proto, () => {
+    console.log('Downloading face_detector.caffemodel');
+    document.getElementById('status').innerHTML='<p><i class="fa fa-spinner fa-spin"></i> Loading Resources...</p>';
+    utils.createFileFromUrl('face_detector.caffemodel', weights, () => {
+      console.log('Downloading OpenFace model');
+      document.getElementById('status').innerHTML='<p><i class="fa fa-spinner fa-spin"></i> Loading Resources...</p>';
+      utils.createFileFromUrl('face_recognition.t7', recognModel, () => {
+        console.log('Downloading face_recognition.t7');
+        document.getElementById('status').innerHTML='';
+        netDet = cv.readNetFromCaffe('face_detector.prototxt', 'face_detector.caffemodel');
+        netRecogn = cv.readNetFromTorch('face_recognition.t7');
+        callback();
+      });
+    });
+  });
+};
+function main() {
+  var output = document.getElementById('output');
+  var camera = document.createElement("video");
+  camera.setAttribute("width", output.width);
+  camera.setAttribute("height", output.height);
+
+  navigator.mediaDevices.getUserMedia({video: true, audio: false})
+    .then(function(stream) {
+      camera.srcObject = stream;
+      camera.onloadedmetadata = function(e) {
+        camera.play();
+      };
+  });
+
+  var cap = new cv.VideoCapture(camera);
+  var frame = new cv.Mat(camera.height, camera.width, cv.CV_8UC4);
+  //var frameBGR = new cv.Mat(camera.height, camera.width, cv.CV_8UC3);
+
+  var image = new Image();
+  image.src = "{{url_for('static',filename='profiles')}}/{{username}}/{{image}}";
+  var canvas1 = document.createElement("canvas")
+  canvas1.setAttribute("width", 640);
+  canvas1.setAttribute("height", 480);
+  var con = canvas1.getContext('2d');
+  image.onload = function(){
+    con.drawImage(image,0,0,canvas1.width,canvas1.height,)
+  } 
+  var frameBGR2 = cv.imread(canvas1)
+  document.getElementById('addPersonButton').onclick = function() {
+    var rects = detectFaces(frameBGR2)
+    if (rects.length > 0) {
+      var face = frameBGR2.roi(rects[0]);
+      var name = '{{username}}'
+      persons[name] = face2vec(face).clone();     
+    }
+  };
+
+  var isRunning = false;
+  const FPS = 30; 
+  function captureFrame() {
+    var begin = Date.now();
+    cap.read(frame); 
+    cv.cvtColor(frame, frameBGR2, cv.COLOR_RGBA2BGR);
+    var faces = detectFaces(frameBGR2);
+    faces.forEach(function(rect) {
+      cv.rectangle(frame, {x: rect.x, y: rect.y}, {x: rect.x + rect.width, y: rect.y + rect.height}, [255, 0, 0, 255]);
+      var face = frameBGR2.roi(rect);      
+      var name = recognize(face);
+      cv.rectangle(frame, {x: rect.x, y: rect.y + rect.height-15}, {x: rect.x + rect.width, y: rect.y + rect.height}, [255, 0,0, 255]);
+      cv.putText(frame, name, {x: rect.x, y: rect.y+ rect.height-2}, cv.FONT_HERSHEY_SIMPLEX, 0.5, [255, 0, 0, 255]);
+    });
+    cv.imshow(output, frame);
+    if (isRunning) {
+      var delay = 1000 / FPS - (Date.now() - begin);
+      setTimeout(captureFrame, delay);
+    }
+  };
+
+  document.getElementById('startStopButton').onclick = function toggle() {
+    if (isRunning) {
+      isRunning = false;
+      document.getElementById('startStopButton').innerHTML = 'Start';
+      document.getElementById('addPersonButton').disabled = true;
+      document.getElementsByClassName('questions').disabled = true;
+    } else {
+      function run() {
+        isRunning = true;
+        captureFrame();
+        document.getElementById('startStopButton').innerHTML = 'Stop';
+        document.getElementById('startStopButton').disabled = false;
+        document.getElementById('addPersonButton').disabled = false;
+        document.getElementsByClassName('questions').disabled = false;
+      }
+      if (netDet == undefined || netRecogn == undefined) {
+        document.getElementById('startStopButton').disabled = true;
+        loadModels(run); 
+      } else {
+        run();
+      }
+    }
+  };
+
+  document.getElementById('startStopButton').disabled = false;
+};
+</script>
+</head>
+<body onload="cv['onRuntimeInitialized']=()=>{ main() }">
+  <style type="text/css">
+    #campane{
+          border:none; margin: 0px;padding: 0px; width:437px;height: 100%;color:#004d13;
+          background: -moz-linear-gradient(270deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(81, 143, 107)), color-stop(100%, rgb(37, 212, 110)));
+          background: -webkit-linear-gradient(270deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+          background: linear-gradient(180deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+          transition: all 0.2s;
+        }
+        #status{
+            position: absolute;color: white;right: 10px;top: 7px;z-index: 5;
+        }
+        #status p{
+            font: 16px/26px "Maiandra GD", sans-serif;
+        }
+  </style>
+  <div class="" id="campane">
+    <div class="" style="background-color: inherit;">
+      <canvas hidden="" id="canvas1"></canvas>
+      <div id="status"></div>
+      <canvas id="output" width=430 height=300 style=""></canvas>
+      <div class="d-flex flex-row">
+      <button class="btn btn-bg btn-danger p-1" style="margin: 5px;width: 110px;" id="startStopButton" type="button" disabled="true">Start</button>
+      <button class="btn btn-bg btn-secondary p-1" style="margin: 5px;width: 110px;" id="addPersonButton" type="button" disabled="true">Detect</button>
+      </div>
+    </div>
+    <br>
+  </div>
+</body>
+
+</html>

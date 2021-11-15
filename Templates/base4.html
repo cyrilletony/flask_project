@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exam Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="{{url_for('static',filename='img/logo.png')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap-grid.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/fontawesome.min.css')}}">
+    <style type="text/css">
+        body{
+            font: 16px/26px "Maiandra GD", sans-serif; 
+        }
+        #rightpane{
+            margin:0px;
+            padding: 0px;
+            display: flex;
+            width:100%;
+            justify-content: center;
+            height: 100vh;
+            color:#004d13;
+            background: -moz-linear-gradient(270deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(81, 143, 107)), color-stop(100%, rgb(37, 212, 110)));
+            background: -webkit-linear-gradient(270deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+            background: linear-gradient(180deg, rgb(81, 143, 107) 0%, rgb(37, 212, 110) 100%);
+            transition: all 0.2s;
+
+        }
+        #leftpane{
+            margin:0px;
+            padding: 0px;
+            width: 98%;
+            height: 100vh;
+            background-color: white;
+
+        }
+        
+    </style>
+    {% block head %}
+    {% endblock %}
+</head>
+<body onload="requestFullScreen();">
+  
+    <div class="row" style="width: 100%;">
+    <div class="col-8" id="leftpane">
+        {% block body %}
+        {% endblock %}
+    </div>
+	<div class="col-4" id="rightpane">
+    <iframe src="/opencvcam/{{username}}" style="border: none; width:437px;"></iframe>
+  </div>
+</div>
+</head>
+
+</body>
+<script type="text/javascript">
+    function requestFullScreen() {
+    var element = document.body;
+    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen ||element.mozRequestFullScreen || element.msRequestFullScreen
+    if (requestMethod) { 
+    } else if (typeof window.ActiveXObject !== "undefined") { 
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+            }
+        }
+    }
+</script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/jquery.min.js')}}"></script>
+<script async type="text/javascript" src="{{url_for('static',filename='javascript/timer.js') }}"></script>
+<script>var Seconds = {{ num }};</script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/popper.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/main.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='javascript/all.min.js')}}"></script>
+</html>
+<!--
+    /*function Ready(){
+    //cv['onRuntimeInitialized']=()=>{
+    var socket = io();
+
+    socket.on('connect', function(){
+        console.log("Connected...!", socket.connected)
+    });
+
+    const video = $('#videoElement').get(0) /*document.getElementById("videoElement");*/
+    
+    
+
+   /* if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            video.srcObject = stream;
+            video.play();
+            video.height = 250;
+            video.width = 400;
+
+            //let source = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+            //let capture = new cv.VideoCapture(video);
+
+            const FPS = 1000;
+            //const options = getFaceDetectorOptions()
+            //const ts = Date.now()
+            //const result = faceapi.detectSingleFace(video, options)
+            //updateTimeStats(Date.now() - ts)
+
+            setInterval(() => {
+                //capture.read(source);
+                
+                var type = "image/png"
+
+                var canvas =document.getElementById("canvasOutput");    /*$('#canvasOutput');
+
+                canvas.width = video.width;
+                canvas.height = video.height;
+                
+                var data = canvas.getContext('2d')
+                data.drawImage(video,0,0,canvas.width,canvas.height)
+                /*const model = await blazeface.load();
+                const returnTensors = false;
+                const predictions = await model.estimateFaces(video, returnTensors);
+                if (predictions.length > 0)
+                  {
+                   console.log(predictions);
+                   for (let i = 0; i < predictions.length; i++) {
+                   const start = predictions[i].topLeft;
+                   const end = predictions[i].bottomRight;
+                   var probability = predictions[i].probability;
+                   const size = [end[0] - start[0], end[1] - start[1]];
+                   // Render a rectangle over each detected face.
+                   context.beginPath();
+                   context.strokeStyle="green";
+                   context.lineWidth = "4";
+                   context.rect(start[0], start[1],size[0], size[1]);
+                   context.stroke();
+                   var prob = (probability[0]*100).toPrecision(5).toString();
+                   var text = prob+"%";
+                   context.fillStyle = "red";
+                   context.font = "13pt sans-serif";
+                   context.fillText(text,start[0]+5,start[1]+20);
+                    }
+                }
+               var x = canvas.toDataURL(type);
+                
+                //const dims = faceapi.matchDimensions(canvas, video, true)
+                //faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims))
+                //x = x.replace('data:' + type + ';base64,'+x+''); //split off junk at the beginning
+
+                //console.log(x)
+                //socket.emit('image', x);
+            }, 10000/FPS);
+
+
+            socket.on('response_back', function(image){
+                const image_id = document.getElementById('image');
+                image_id.src = image;
+            });
+        })
+        .catch(function (err0r) {
+            console.log(err0r)
+            console.log("Something went wrong!");
+        });
+    }
+
+    };
+   // };*/
+
+
+    -->

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+   <span id="result"></span>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+   <script type="text/javascript">
+      const root_url = {{request.root_url|tojson|safe}};
+      const intervalID = setInterval(update_values, 1000);
+      function update_values() {
+        $.getJSON(
+          root_url + "_timer",
+          data => {
+            $("#result").text(data.result);
+            if (data.result == 0) {
+              clearInterval(intervalID);
+            }
+          }
+        )
+      }
+   </script>
+</body>
+<!--
+class Timer:
+    def __init__(self, current_time):
+        self.current_time = current_time
+
+    def decrement(self):
+        if self.current_time > 0:
+            self.current_time = self.current_time - 1
+        return self.current_time
+
+
+t = Timer(current_time=60)
+
+
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
+
+
+@app.route("/_timer", methods=["GET", "POST"])
+def timer():
+    new_time = t.decrement()
+    return jsonify({"result": new_time})
+-->
+</html>

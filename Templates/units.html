@@ -1,0 +1,90 @@
+{% extends 'examinerbase1.html' %}
+{% block head %}
+
+<title>Units</title>
+
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+<div class="container" style="height: auto; width: 100%;min-height: 5vh; transition: all 0.3s; margin: 6px; background-color: #99ffbb;">
+	<div class="row">
+	<button class="btn btn-sm btn-success col-2" data-toggle="modal" data-target="#staticBackdropadd" id="Collapse"><i class="fa fa-plus"></i><span>  Add Unit</span></button>
+	<div class="col" style="margin-left: 10px">
+	<form action="/searchunit2" method="post">
+		<div class="row">
+		<input type="search" name="search" placeholder="Search Units..." class="col-8" style="width:30%; border: 1px solid #4da6ff; background-color: transparent; border-radius: 3px;">
+		<button type="submit" name="submit" class="btn btn-sm btn-info col-3" id="Collapse"><i class="fa fa-search"></i><span>  Search</span></button>
+		</div>
+		
+	</form>
+</div>
+</div>
+</div>
+<div class="modal" id="staticBackdropadd" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabeladd" aria-hidden="true">
+	<div class="modal-dialog" role='document' style="width: auto;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabeladd" style="text-transform: capitalize;">Add Unit</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div>
+					<form class="login-form" action="/addunit" method="post" enctype=multipart/form-data>
+						<label><i class="fa fa-graduation-cap"></i>  Unit Name</label><br>
+        				<input type="text" class="input" id="" autocomplete="off" maxlength="60" name="unitname" required="" style="width: 100%">
+        				<br>
+        				<label><i class="fa fa-id-badge"></i>  Unit Code</label><br>
+        				<input type="text" class="input" id="" autocomplete="off" maxlength="10"  name="unitid" required="" style="width: 100%">
+        				<br>
+        				<label><i class="fa fa-info"></i>  Unit Description</label>
+        				<br>
+        				<textarea name="description" maxlength="140" style="width: 100%; height: 130px;" >
+						</textarea>
+        				<br>
+        				<label><i class="fa fa-file-image"></i>  Unit Image</label><br>
+        				<input type="file" name="file" style="width: 100%" required="">
+        				<hr>
+        				<input type="submit" class="btn btn-success btn-sm" value="Submit" style="width: 100%">
+        			</form>
+        		</div>
+			</div>
+			
+		</div>
+	</div>	
+</div>
+<div class="table-striped table-hover table-condensed" style="overflow-y:scroll; height: 86vh;">
+<table class="table">
+<tr class="form-primary">
+	
+	<th>Unit Code</th>
+	<th>Unit Name</th>
+	<th>Lecturer</th>
+	<th>Date</th>
+	<th id="acts">Actions</th>
+</tr>
+{% for unit in units %}
+<tr>
+	
+	<td>{{ unit.unitcode }}</td>
+	<td>{{ unit.unitname}}</td>
+	<td>{{ unit.lecturer}}</td>
+	<td>{{ unit.date.strftime('%b %d, %Y')}}</td>
+	<td>
+		<a href="/deleteunit/{{unit.unitcode}}"><button class="btn btn-danger btn-sm">Delete</button></a>
+		<a href="/addexamt/{{unit.unitcode}}"><button class="btn btn-info btn-sm">Add Exam</button></a>
+	</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+
+{% endblock %}

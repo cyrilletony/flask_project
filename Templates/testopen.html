@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block head %}
+
+<title>{{exam.unitname}}</title>
+
+{% endblock %}
+{% block body %}
+
+<div id="dash">
+<div class="container row">
+	<div class="col-md">
+	<h3><b>{{exam.unitcode}} {{exam.unitname}}</b></h3>
+	<h4>Supervised By: {{exam.lecturer}}</h4>
+	</div>
+	<div class="col-md-3">
+	<h4 style="font-weight: bold;background-color: orange;font-size: 18px;margin: 4px; text-align:center;color: white; border: 1px solid black; border-radius: 5px;padding: 2px;">Date<br>{{ exams.startdate.strftime('%b %d, %Y at %I:%M %p')}}</h4>
+	<h4 style="font-weight: bold;font-size: 18px;margin: 4px; text-align:center;color: white; background-color: green; border: 1px solid black; border-radius: 5px;padding: 2px;">Duration: {{ exams.examduration}} Mins</h4>
+	</div>
+	<div class="col-md-3">
+	<h4 style="background-color:blue; border: 1px solid black; padding: 2px;border-radius: 5px;margin: 4px; font-size: 18px;text-align:center;color: white;">Total Marks<br>{{ exams.totalmarks}} Marks</h4>
+	<h4 style="background-color:red; border: 1px solid black; padding: 2px;border-radius: 5px;font-size: 18px;margin:4px; text-align:center;color: white;">Passmark: {{ exams.passmark}} Marks</h4>
+	</div>
+</div>
+<hr>
+<div style="text-align: center;" class="container">
+<h4><u><b>Steps For Accessing Your Exam Online:</b></u></h4>
+<h5><b>Close all programs, including email</b></h5>	
+<h5><b>During the exam:</b></h5>
+<h6>1. The student may not use his or her textbook, course notes, or receive help from any one or any other outside source.</h6>
+<h6>2. Students must complete the exam within the provided time frame allocatted for the exam.</h6>
+<h6>3. Students must not stop the session and then return to it.</h6>
+
+<h5><b>What to do if your online exam is interrupted</b></h5>
+<h6>If your online exam is interrupted, click the “Back” button on your web browser to see if you can return to the exam. If not, follow the instructions below to resume taking the exam. Note: Answers are saved by the system in 10-minute intervals. If you have to log back in to complete your exam, your prior answers will remain from the last system-save.</h6>
+</div>
+<hr>
+<div style="display:flex; justify-content: center;">
+<a href="/examination/{{exam.unitcode}}"><button type="button" class="btn btn-info"><span>Start Exam  </span><i class="fa fa-arrow-right"></i></button></a>
+</div>
+</div>
+
+
+</script>
+{% endblock %}
+

@@ -1,0 +1,322 @@
+{% extends 'examinerbase1.html' %}
+{% block head %}
+{% for unittittle in units %}
+<title>{{unittittle.unitcode}}</title>
+{% endfor %}
+{% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert" style="position:absolute;width:auto;z-index: 20; right: 0px;">
+        <i class="fa fa-exclamation-circle"></i><span> {{messages[0]}}</span><button class="close" data-dismiss="alert" type="button">&times;</button>
+</div>
+{% endif %}
+{% endwith %}
+<div class="container">
+{% for unit in units %}
+<div class="d-flex justify-content-between" style="margin:5px 0px; border-bottom: 1px dotted green;">
+	<div class="p-1">
+	<h4><b>{{unit.unitcode}}  {{unit.unitname}}</b></h4>
+	</div>
+	<div class='p-1 row' id="lec">
+      	<div id="lecimage" class="col-1">
+      	<img src="{{url_for('static',filename='img/profile.png')}}" >
+        </div>
+      	<div class="col" id="lecdetails" style="bottom: 0px">
+      	<h6 id="lecname"><b>By {{unit.lecturer}}</b></h6>
+      	<h6 id="date">Created on {{unit.date.strftime('%b %d, %Y')}}</h6>
+      	</div>
+    </div>
+</div>
+{% endfor %} 
+<div class="d-flex flex-row" style="margin:5px; height: auto;">
+	<button class="btn btn-sm btn-info p-1" data-toggle="modal" data-target="#staticBackdropadd" id="Collapse"><i class="fa fa-plus"></i>  Add Questions</button>
+	<button class="btn btn-sm btn-danger p-1" style="margin-left: 5px;"><i class="fa fa-edit"></i>  Update Unit</button>
+</div>   
+<div>
+	<p>
+		
+	</p>
+</div>
+<div class="modal fade" id="staticBackdropadd" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabeladd" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role='document' style="width: auto;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabeladd" style="text-transform: capitalize;">Select your question type</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times</span>
+				</button>
+			</div>
+			<div class="modal-body">
+			<div class="row">
+				<div class="col">
+				<button class="btn btn-lg btn-danger" id="bttn" data-toggle="modal" data-target="#exampleModalLong" id="Collapse"data-dismiss="modal" aria-label="Close">
+					<i class="fa fa-dot-circle"></i>
+					<br>
+					<i class="fa fa-circle"></i>
+					<br>
+					<i class="fa fa-circle"></i>
+				</button>
+				<h6 id="bttndets">Multi Choice</h6>
+			</div>
+			<div class="col">
+				<button class="btn btn-lg btn-danger" id="bttn" data-toggle="modal" data-target="#exampleModalLong2" id="Collapse"data-dismiss="modal" aria-label="Close">
+					<i class="fa fa-check-square"></i>
+					<br>
+					<i class="fa fa-check-square"></i>
+					<br>
+					<i class="fa fa-square"></i>
+				</button>
+				<h6 id="bttndets">Multi Select</h6>
+			</div>
+			<div class="col">
+				<button class="btn btn-lg btn-danger" id="bttn" data-toggle="modal" data-target="#exampleModalLong3" id="Collapse"data-dismiss="modal" aria-label="Close">
+					<i class="fa fa-i-cursor" style="height: 70px;width: 10px;"></i>
+					
+				</button>
+				<h6 id="bttndets">Prose</h6>
+			</div>
+			<div class="col">
+				<button class="btn btn-lg btn-danger" id="bttn" data-toggle="modal" data-target="#exampleModalLong4" id="Collapse"data-dismiss="modal" aria-label="Close">
+					<i class="fa fa-check-square"></i>
+					<br>
+					<i class="fa fa-window-close"></i>
+					
+				</button>
+				<h6 id="bttndets">True/False</h6>
+			</div>
+			</div>
+			</div>
+			
+		</div>
+	</div>	
+</div> 
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Multi Choice Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 80vh; overflow-y: scroll;">
+        <form action="/multiplechoice" method="post">
+        	{% for unit in units %}
+        	<input type="text" name="unitcode" value="{{unit.unitcode}}" hidden="">
+        	<input type="text" name="unitid" value="{{unit.id}}" hidden="">
+        	{% endfor %}
+        <label style="width:100%; ">
+        	<span>Question</span>
+        	<textarea type="text" name="question1" id="inpp" required="" style="width:100%; height: 30vh !important; overflow-y: scroll;" wrap="hard"></textarea>
+        </label>
+        <label style="width:100%;">
+        	<span>Option A</span>
+        	<input type="text" name="a" id="inpp" style="width:100%;" required="">
+        </label>
+        <label style="width:100%;">
+        	<span>Option B</span>
+        	<input type="text" name="b" id="inpp" style="width:100%;" required="">
+        </label>
+        <label style="width:100%;">
+        	<span>Option C</span>
+        	<input type="text" name="c" id="inpp" style="width:100%;" required="">
+		</label>
+        <label style="width:100%;">
+        	<span>Option D</span>
+        	<input type="text" name="d" id="inpp" style="width:100%;" required="">
+        </label>
+        <label style="width:100%;">
+        	<span>Answer</span>
+        	<input list="options" name="answer" id="inpp" style="width:100%;" required="">
+        	<datalist id="options">
+			    <option value="A">
+			    <option value="B">
+			    <option value="C">
+			    <option value="D">
+			</datalist>
+
+        </label>
+        <label style="width:100%;">
+        	<span>Marks</span>
+        	<input type="number" name="marks" id="inpp" style="width:100%;" required="">
+
+        </label>
+        <br>
+        	<button type="submit" class="btn btn-primary" style="width:100%;">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle2" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle2">Multi Select Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 80vh; overflow-y: scroll;">
+        <form action="/multipleselect" method="post"> 
+        	{% for unit in units %}
+        	<input type="text" name="unitcode" value="{{unit.unitcode}}" hidden="">
+        	<input type="text" name="unitid" value="{{unit.id}}" hidden="">
+        	{% endfor %}
+        	<label style="width: 100%;">
+        		<span>Question</span>
+        		<textarea type="text" name="question" required="" id="inpp" style="width: 100%; height: 30vh;max-height: 30vh;overflow-y: scroll;">
+        			
+        		</textarea>
+        	</label>
+        	<label style="width: 100%">
+        		<span>Marks</span>
+        		<input type="number" name="marks" style="width: 100%" id="inpp" required="">
+        	</label>
+        	<label style="width: 100%">
+        		<span>Number of Selectable Choices</span>
+        		<input type="number" name="choices" style="width: 100%" id="inpp" required="">
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 1</span>
+        		<input type="text" name="select1" style="width: 100%" id="inpp" required="">
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 2</span>
+        		<input type="text" name="select2" style="width: 100%" id="inpp" required="">
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 3</span>
+        		<input type="text" name="select3" style="width: 100%" id="inpp" required="">
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 4</span>
+        		<input type="text" name="select4" style="width: 100%" id="inpp" >
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 5</span>
+        		<input type="text" name="select5" style="width: 100%" id="inpp" >
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 6</span>
+        		<input type="text" name="select6" style="width: 100%" id="inpp" >
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 7</span>
+        		<input type="text" name="select7" style="width: 100%" id="inpp" >
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 8</span>
+        		<input type="text" name="select8" style="width: 100%" id="inpp" >
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 9</span>
+        		<input type="text" name="select9" style="width: 100%" id="inpp" >
+        	</label>
+        	<label style="width: 100%">
+        		<span>Selection 10</span>
+        		<input type="text" name="select10" style="width: 100%" id="inpp" >
+        	</label>
+        <button type="submit" class="btn btn-sm btn-primary" style="width: 100%">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModalLong3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle3" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" style="height:80vh;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle3">Prose Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/prose" method="post">
+        	{% for unit in units %}
+        	<input type="text" name="unitcode" value="{{unit.unitcode}}" hidden="">
+        	<input type="text" name="unitid" value="{{unit.id}}" hidden="">
+        	{% endfor %}
+        	<label style="width: 100%;">
+        	<textarea type="text" name="question" required="" style="width: 100%; height: 60vh !important; overflow-y: scroll;" id="inpp" wrap="hard"></textarea>
+        </label>
+        <label style="width: 100%;">
+        	<span>Marks</span>
+        	<input type="number" name="marks" id="inpp" style="width: 100%;">
+        </label>
+        	<button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="exampleModalLong4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle4" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="height: 60vh;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle4">True or False Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/trueorfalse" method="post">
+        	{% for unit in units %}
+        	<input type="text" name="unitcode" value="{{unit.unitcode}}" hidden="">
+        	<input type="text" name="unitid" value="{{unit.id}}" hidden="">
+        	{% endfor %}
+        	<label style="width: 100%">
+        		<span>Question</span>
+        	<textarea type="text" name="question" required="" id="inpp" style="width: 100%; height: 30vh; overflow-y: scroll;"></textarea>
+        	</label>
+        	<label style="width: 100%">
+        		<span>Answer</span>
+        	<input list="tof" name="answer" id="inpp" style="width: 100%" required="">
+        	<datalist id='tof'>
+		    <option value="True">
+		    <option value="False">
+		    </datalist>
+        	</label>
+        	<label style="width: 100%">
+        		<span>Marks</span>
+        	<input type="number" name="marks" id="inpp" style="width: 100%" required="">
+        	</label>
+        	<button type="type" class="btn btn-primary" style="width: 100%">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="table-striped table-hover table-condensed" style="overflow-y:scroll; height: 76vh;">
+<table class="table">
+<tr class="form-primary">
+	
+	<th>Question ID</th>
+	<th>Type</th>
+	<th>Lecturer</th>
+	<th>Date</th>
+	<th>Details</th>
+</tr>
+{% for question in questions %}
+<tr>
+	
+	
+	<td>{{question.questionid}}</td>
+	<td>{{question.questiontype}}</td>
+	<td>{{question.creator}}</td>
+	<td>{{question.date.strftime('%b %d, %Y')}}</td>
+	<td>
+		<a href="#"><button class="btn btn-sm btn-info">Details</button></a>
+		<a href="#"><button class="btn btn-sm btn-danger">Delete</button></a>
+	</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</div>
+
+
+{% endblock %}
+
